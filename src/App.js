@@ -30,6 +30,12 @@ function App() {
     setList(newList);
 
   }
+
+  function handleToggleDone(index){
+    let newList = [...list];
+    newList[index].status = !newList[index].status;
+    setList(newList);
+  }
   
   return (<div className='page'> 
 
@@ -42,7 +48,7 @@ function App() {
     <ol>
 
       {list.map((item,index)=>(
-      <ItemList key={index}>
+      <ItemList key={index} onClick={()=>handleToggleDone(index)}>
         
       {item.status && <del>{item.tarefa}</del>}
       {!item.status && item.tarefa}
