@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React,{useState, useEffect} from 'react';
 import styled from 'styled-components';
+import InputBox from './components/InputBox';
 import './App.css';
 
 const Title = styled.h1`
@@ -7,37 +8,49 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const ListItem = styled.li`
-  
+const ItemList = styled.li`
+
 `;
 
 function App() {
-
+  
   const [list, setList] = useState([]);
 
   useEffect(()=>{
     setList([
-      {title: 'Tomar Café', done:false},
-      {title: 'Almoçar', done:false},
-      {title: 'Jantar', done:true}
+      {tarefa:'Tomar Café', status: false},
+      {tarefa:'Almoçar', status: true},
+      {tarefa:'Jantar', status: false}
     ]);
-
   },[]);
 
-  return (<div className='page'>
-    <Title>Lista de Tarefas</Title>
-    <hr/>
+  function addAction(newItem){
+    let newList = [...list];
+    newList.push({tarefa:newItem, status:false});
+    setList(newList);
+
+  }
+  
+  return (<div className='page'> 
+
+    <Title>Lista</Title><hr/>
+    <InputBox 
+    frasePadrao="Adicione um item"
+    onEnter={addAction}
+    />
+
     <ol>
-      {list.map((item, index)=>{
-        return(
-        <ListItem key={index}>{item.title}</ListItem>
-        //sempre que usamos a função map obragatoriamente temos que definir uma key
-        );
-      })}
+
+      {list.map((item,index)=>(
+      <ItemList key={index}>
+        
+      {item.status && <del>{item.tarefa}</del>}
+      {!item.status && item.tarefa}
+      
+      </ItemList>))}
+
     </ol>
 
-  </div>);
-   
-}
+  </div>);}
 
 export default App;
